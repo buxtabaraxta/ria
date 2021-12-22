@@ -1,15 +1,15 @@
-# Project for ria resource. Which will be triger individuals data
+# Project for ria resource. Which will be triggers individuals data
 import sys
 import requests
 import json
 import api
 
 auto_ria_domain = "https://auto.ria.com"
-domain_auto = "https://developers.ria.com/auto/search"
+developer_domain_search = "https://developers.ria.com/auto/search"
 category_id = "category_id/1"
 category_auto = "categories/1"
 
-request = requests.get("https://developers.ria.com/auto/search",
+request = requests.get(f"{developer_domain_search}/auto/search",
                        params={'api_key': api.key, 'category_id': 1,
                                "marka_id[0]": 9,
                                "model_id[0]": 33436,
@@ -26,22 +26,12 @@ request = requests.get("https://developers.ria.com/auto/search",
                                "countpage": 100, "page": 0})
 
 # Stop if got connect limit
-# if request.json().get('additional_params').get('page'):
-#     print('catch')
-# sys.exit(0)
-
-# print(type(request.json()))
-# sys.exit(0)
 try:
     if request.json().get('error').get('code'):
         print(request.json().get('error').get('message'))
         sys.exit(0)
 except AttributeError:
     print("No connection limit")
-
-
-def get_url(mark, model):
-    return requests.get(f"{domain_auto}/{category_id}/marka_id/{mark}/", params={'api_key': api.key})
 
 
 def create_json(endpoint, name):
